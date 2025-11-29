@@ -1,0 +1,23 @@
+name: Krafted Project
+services:
+  hardhat:
+    stdin_open: true
+    tty: true
+    init: true
+    build:
+      context: ./hardhat
+      dockerfile: Dockerfile.hardhat
+    image: aon-hardhat:latest
+    volumes:
+      - ./hardhat:/app
+    #command: bash -c "npx hardhat node"
+  dapp:
+    stdin_open: true
+    tty: true
+    init: true
+    build:
+      context: ./dapp
+      dockerfile: Dockerfile.dapp
+    image: aon-dapp:latest
+    volumes:
+      - ./dapp:/app
