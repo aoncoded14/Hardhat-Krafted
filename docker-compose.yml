@@ -8,10 +8,13 @@ services:
       context: ./hardhat
       dockerfile: Dockerfile.hardhat
     image: aon-hardhat:latest
-    user: "1000:1000"
+    user: "${UID}:${GID}"
     volumes:
       - ./hardhat:/app
+      - /app/node_modules  # Anonymous volume
     command: sleep infinity
+    environment:
+      - NODE_ENV=development
     #command: bash -c "npx hardhat node"
   dapp:
     stdin_open: true
@@ -21,6 +24,10 @@ services:
       context: ./dapp
       dockerfile: Dockerfile.dapp
     image: aon-dapp:latest
-    user: "1000:1000"
+    user: "${UID}:${GID}"
     volumes:
       - ./dapp:/app
+    working_dir: /app/frontend  
+    ports:
+      - "5173:5173"  
+    command: npm run dev -- --host 0.0.0.0
